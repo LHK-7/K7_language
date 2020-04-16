@@ -1,0 +1,6 @@
+"Rule: ocaml: ml & cmi -> cmx & o (%=scanner )": "7.-P\2287i\218\031\231\219a\1835a\228"
+"Rule: ocaml: ml -> cmo & cmi (%=scanner )": "\253\019\011\152\016\180\186\234\160\136\185\140\144\180\190\172"
+"Resource: /Users/linghankong/Desktop/OpenSC_DeepseaProject/onemore/OpenSC/src/testfolder/scanner.mll": "~\196\136\0282e&\1459*kN\015\196\138U"
+"Rule: ocamllex (%=scanner )": "\220<\183\136\014w~\177\237\144T\176}\194\169'"
+"Rule: ocaml dependencies ml (%=scanner )": "a\003\182:\1366\220\235\225\152\252|?\209\242\175"
+"Rule: ocaml: cmx* & o* -> native (%=scanner )": "\205\153\162o\162\131\016=\255\176(\129\007\029^\187"
