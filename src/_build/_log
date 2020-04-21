@@ -7,16 +7,14 @@ ocamldep.opt -modules ast.ml > ast.ml.depends # cached
 ocamlc.opt -c -o ast.cmo ast.ml # cached
 # Target: parser.mly, tags: { extension:mly, file:parser.mly, infer, ocaml, ocamlyacc, parser, quiet }
 ocamlyacc parser.mly
-+ ocamlyacc parser.mly
-3 rules never reduced
 # Target: parser.mli.depends, tags: { extension:mli, file:parser.mli, ocaml, ocamldep, quiet }
-ocamldep.opt -modules parser.mli > parser.mli.depends
+ocamldep.opt -modules parser.mli > parser.mli.depends # cached
+# Target: parser.cmi, tags: { byte, compile, extension:mli, file:parser.mli, interf, ocaml, quiet }
+ocamlc.opt -c -o parser.cmi parser.mli # cached
 # Target: scanner.mll, tags: { extension:mll, file:scanner.mll, lexer, ocaml, ocamllex, quiet }
 ocamllex.opt -q scanner.mll # cached
 # Target: scanner.ml.depends, tags: { extension:ml, file:scanner.ml, ocaml, ocamldep, quiet }
 ocamldep.opt -modules scanner.ml > scanner.ml.depends # cached
-# Target: parser.cmi, tags: { byte, compile, extension:mli, file:parser.mli, interf, ocaml, quiet }
-ocamlc.opt -c -o parser.cmi parser.mli
 # Target: scanner.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:scanner.cmo, file:scanner.ml, implem, ocaml, quiet }
 ocamlc.opt -c -o scanner.cmo scanner.ml # cached
 # Target: test.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:test.cmo, file:test.ml, implem, ocaml, quiet }

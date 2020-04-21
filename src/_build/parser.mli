@@ -37,6 +37,7 @@ type token =
   | AND
   | OR
   | BOOL
+  | INT
   | NUMLITERAL of (int)
   | ID of (string)
   | ADDRESSLIT of (string)
