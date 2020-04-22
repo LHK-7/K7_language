@@ -46,7 +46,7 @@ rule token = parse
 	(*  ==========================================================  *)
 	| "signature"		 		 { SIGNATURE }		
 	(* | "end"				       { END("END") }	separation op *)
-	| "storage"			     { STROAGE }
+	| "storage"			     { STORAGE }
 	| "event"			 			 { EVENT }
 	| "of"				 			 { OF }
 	| "method"			 		 { METHOD }

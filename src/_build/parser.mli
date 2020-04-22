@@ -13,6 +13,7 @@ type token =
   | RETURNS
   | MAP
   | UINTType
+  | STORAGE
   | ASSIGN
   | ARROW
   | MAPASSIGN

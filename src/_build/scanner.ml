@@ -2233,7 +2233,7 @@ and __ocaml_lex_token_rec lexbuf __ocaml_lex_state =
 
   | 34 ->
 # 49 "scanner.mll"
-                    ( STROAGE )
+                    ( STORAGE )
 # 2238 "scanner.ml"
 
   | 35 ->

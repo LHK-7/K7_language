@@ -1,4 +1,4 @@
-type op = Add | Sub | Equal | Neq | Less | And | Or
+type op = Add | Sub | Equal | Neq | Less | And | Or | LGT
 
 type typ = 
 	| Bool of bool
@@ -29,6 +29,7 @@ type expr =
 	| Binop of expr * op * expr
 	| Constructorexpr of string * typ * typ 
 	| Methodexpr of string * typ  * typ 
+	| Logexpr of expr * expr list
 
 (* control flow statement: if, while *)
 type stmt =
@@ -43,13 +44,16 @@ type consturctor_def ={
 	return_type: typ;
 }
 
+(* for guard body *)
+(* type fv_def = ... *)
+
 type method_def = {
-	fname: string;
-	formals: param list;
-	guard: expr list;
-	storage: expr list;
-	effects: expr list;
-	returns: expr list;
+	methodname: expr;
+	params: param list;
+	guard_body: expr list;
+	storage_body: expr list;
+	effects_body: expr list;
+	returns: typ;
 }
 
 type interface_def = {
@@ -57,13 +61,15 @@ type interface_def = {
 	interfacebody: expr list;
 }
 
+type implementation_def = {
+	consturctor: consturctor_def;
+	methods: method_def list;
+}
 
-(* type decls = 
-	| Interfacebody of expr list
-	| Implementation of expr list  *)
-
-type program = interface_def list * consturctor_def list
-(* type program = interface_def list * consturctor_def * method_def list  *)
+(* type program = interface_def list * consturctor_def list *)
+(* consturctor list is bad ! *)
+type program = interface_def list * implementation_def list
+(* type program = interface_def list * consturctor_def list * method_def list  *)
 
 (* pretty printing *)
 let string_of_op = function
@@ -74,6 +80,7 @@ let string_of_op = function
   | Less -> "<"
   | And -> "&&"
 	| Or -> "||"
+	| LGT -> ">"
 
 let string_of_builtin = function
 		Int -> "int"
@@ -101,7 +108,7 @@ let rec string_of_expr = function
 	| Binop(e1, op, e2) ->  (string_of_expr e1) ^ (string_of_op op) ^ (string_of_expr e2)
 	| Constructorexpr(x, ty1, ty2) -> x ^ string_of_typ ty1 ^  string_of_typ ty2
 	| Methodexpr(x, ty1, ty2) -> x ^ string_of_typ ty1 ^ string_of_typ ty2
-	
+	| Logexpr(e, el) -> string_of_expr e ^ String.concat " " (List.map string_of_expr el)
 
 (* let string_of_expr = function
 		NumLit(l) -> string_of_int l
@@ -115,13 +122,24 @@ let string_of_interfacedef interfacedecl =
 
 let string_of_constructordef constructordecl = 
 	string_of_expr constructordecl.name ^ " " ^  
-	String.concat "" (List.map string_of_param constructordecl.params) ^ 
+	String.concat " " (List.map string_of_param constructordecl.params) ^ 
 	String.concat "" (List.map string_of_expr constructordecl.consturctor_body) ^
 	" " ^ string_of_typ constructordecl.return_type
 
+let string_of_methoddef methoddecl = 
+	string_of_expr methoddecl.methodname ^ " " ^
+	String.concat " " (List.map string_of_param methoddecl.params) ^
+	String.concat " " (List.map string_of_expr methoddecl.guard_body) ^
+	String.concat " " (List.map string_of_expr methoddecl.storage_body) ^
+	String.concat " " (List.map string_of_expr methoddecl.effects_body) ^
+	string_of_typ methoddecl.returns
 
-let string_of_program (interfaces, constructors) =
+
+let string_of_implementation implementdecl =
+	string_of_constructordef implementdecl.consturctor ^ " " ^
+	String.concat "\n" (List.map string_of_methoddef implementdecl.methods)
+
+let string_of_program (interfaces, implementations) =
 	"\n\nParsed program: \n\n" ^
 	String.concat "" (List.map string_of_interfacedef interfaces) ^ "\n"  ^
-  String.concat "\n" (List.map string_of_constructordef constructors) ^ "\n" ^  "Yeah"
-	(* String.concat "\n" (List.map string_of_methoddef methods) *)
+  String.concat "\n" (List.map string_of_implementation implementations) ^ "Yeah"

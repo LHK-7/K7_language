@@ -2,9 +2,16 @@ signature SimpleStorage {
     UInt storedData;
 }
 
+constructor c (){
+	return True;
+}
 method set(x: UInt) {
-	storage
+	guard{
+		x > 0;
+	}
+	storage{
     	storedData = x;
+	}
 	returns ();
 }
 
